@@ -27,6 +27,18 @@ const Login = () => {
         }
     };
 
+     const handleSignin = async()=>{
+        try{
+            const result = await axios.post(BASE_URL+"/auth/signin",{
+                firstName,lastName,email,password
+            },{withCredentials:true});
+            dispatch(addUser(result.data.data))
+            return navigate('/profile');
+         }catch(err){
+            setError(err?.response?.data?.message||"something went wrong")
+            console.log(err);
+        }
+    };
 
   return (    
     <div className="flex justify-center my-25">
@@ -53,7 +65,7 @@ const Login = () => {
     </div>
     <p className='text-red-500'>{error}</p>
     <div className="card-actions justify-center">
-      <button className="btn btn-primary" onClick={handleLogin}>{isLoginForm?"Login":"signup"}</button>
+      <button className="btn btn-primary" onClick={isLoginForm?handleLogin:handleSignin}>{isLoginForm?"Login":"signup"}</button>
     </div>
         <p className='text-red-500' onClick={()=>setIsLoginForm((value)=>!value)}>{isLoginForm?"new user click here":"existing user click here"}</p>
   </div>
