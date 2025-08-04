@@ -7,6 +7,9 @@ import { BASE_URL } from '../utils/constants';
 const Login = () => {
     const [email,setEmail]=useState("ram@gmail.com");
     const [password,setPassword]=useState("ram@123");
+    const[firstName,setFirstName]=useState("");
+    const[lastName,setLastName]=useState("");
+    const[isLoginForm,setIsLoginForm]=useState(true);
     const [error,setError]=useState("");
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -29,8 +32,16 @@ const Login = () => {
     <div className="flex justify-center my-25">
         <div className="card card-dash bg-base-100 w-96 border bg-blue-100 ">
   <div className="card-body">
-    <h2 className="card-title justify-center">Login</h2>
+    <h2 className="card-title justify-center">{isLoginForm ? "Login":"signup"}</h2>
     <div>
+    {!isLoginForm && <><fieldset className="fieldset">
+<legend className="fieldset-legend">First Name:</legend>
+<input type="text" value={firstName} className="input" placeholder="Type here" onChange={(e)=>setFirstName(e.target.value)} />
+</fieldset>
+<fieldset className="fieldset">
+<legend className="fieldset-legend">Last Name:</legend>
+<input type="text" value={lastName} className="input" placeholder="Type here" onChange={(e)=>setLastName(e.target.value)} />
+</fieldset></>}
         <fieldset className="fieldset">
   <legend className="fieldset-legend">Enter your Email</legend>
   <input type="text" value={email} className="input" placeholder="Type here" onChange={(e)=>setEmail(e.target.value)} />
@@ -42,8 +53,9 @@ const Login = () => {
     </div>
     <p className='text-red-500'>{error}</p>
     <div className="card-actions justify-center">
-      <button className="btn btn-primary" onClick={handleLogin}>Login</button>
+      <button className="btn btn-primary" onClick={handleLogin}>{isLoginForm?"Login":"signup"}</button>
     </div>
+        <p className='text-red-500' onClick={()=>setIsLoginForm((value)=>!value)}>{isLoginForm?"new user click here":"existing user click here"}</p>
   </div>
 </div>
     </div>

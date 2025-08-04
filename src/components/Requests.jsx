@@ -7,8 +7,16 @@ const Requests = () => {
   const requests=useSelector((store)=>store.requests);
   const dispatch=useDispatch();
 
- const renderRequests = (connection) => {
-  const { _id, firstName, lastName, age, gender, photoUrl, skills, about } = connection.fromUserId;
+  const requestReview=async (status,_id)=>{
+    try{
+      await axios.post(BASE_URL+"/request/review/"+status+"/"+_id,{},{withCredentials:true});
+    }catch(err){
+      console.log(err);
+    }
+  }
+
+ const renderRequests = (request) => {
+  const { _id, firstName, lastName, age, gender, photoUrl, skills, about } = request.fromUserId;
 
   return (
     <div
@@ -39,10 +47,15 @@ const Requests = () => {
       </div>
 
       <div className="mt-4 flex justify-center gap-4">
-        <button className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition">
+        <button className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition"
+        onClick={()=>requestReview("accepted",request._id)}
+        >
           Accept
         </button>
-        <button className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+        <button className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                onClick={()=>requestReview("rejected",_id)}
+
+        >
           Reject
         </button>
       </div>
