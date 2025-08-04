@@ -7,6 +7,8 @@ import appStore from "./utils/appStore"
 import Feed from "./components/Feed"
 import Profile from "./components/Profile"
 import Home from "./components/Home"
+import Connections from "./components/Connections"
+import Requests from "./components/Requests"
 
 function App() {
  
@@ -20,7 +22,9 @@ function App() {
             <Route path="/feed" element={<Feed></Feed>}></Route> 
             <Route path="/profile" element={<Profile></Profile>}></Route>         
             <Route path="/home" element={<Home></Home>}></Route> 
-            <Route path="signin" element={<Signin></Signin>}></Route>
+            <Route path="/signin" element={<Signin></Signin>}></Route>
+            <Route path="/connections" element={<Connections></Connections>}></Route>
+            <Route path="/requests" element={<Requests></Requests>}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
