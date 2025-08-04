@@ -12,12 +12,13 @@ const Body = () => {
   const navigate=useNavigate();
   const userData=useSelector((store)=>store.user);
   const fetchUser=async()=>{
-    if(!userData) return ;
+    //if(!userData) return ;
     try{
     const result=await axios.get(BASE_URL+"/profile/view",{withCredentials:true})
     dispatch(addUser(result.data));
     }catch(err){
       if(err.status===401){
+        dispatch(addUser(null));
         navigate("/login");
       }
       console.log(err);
@@ -25,8 +26,10 @@ const Body = () => {
   }
 
   useEffect(()=>{
-    fetchUser();
-  },[]);
+    if(!userData){
+      fetchUser();
+    }
+   },[]);
 
   return (
     <>
