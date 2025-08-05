@@ -5,8 +5,8 @@ import { addUser } from '../utils/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/constants';
 const Login = () => {
-    const [email,setEmail]=useState("ram@gmail.com");
-    const [password,setPassword]=useState("ram@123");
+    const [email,setEmail]=useState("");
+    const [password,setPassword]=useState("");
     const[firstName,setFirstName]=useState("");
     const[lastName,setLastName]=useState("");
     const[isLoginForm,setIsLoginForm]=useState(true);
@@ -18,8 +18,7 @@ const Login = () => {
             const result = await axios.post(BASE_URL+"/auth/login",{
                 email,password
             },{withCredentials:true});
-            console.log(result.data);
-            dispatch(addUser(result.data))
+             dispatch(addUser(result.data))
             return navigate('/feed');
          }catch(err){
             setError(err?.response?.data?.message||"something went wrong")

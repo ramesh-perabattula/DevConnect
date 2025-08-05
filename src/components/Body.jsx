@@ -21,8 +21,7 @@ const Body = () => {
         dispatch(addUser(null));
         navigate("/login");
       }
-      console.log(err);
-     }
+      }
   }
 
   useEffect(()=>{

@@ -30,8 +30,7 @@ const EditCard = ({user}) => {
             },3000);
     }catch(err){
         setError(err);
-        console.log(err.response.data);
-    }
+     }
    }
   return (    
      <>
