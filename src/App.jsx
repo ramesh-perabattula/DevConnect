@@ -9,6 +9,7 @@ import Profile from "./components/Profile"
 import Home from "./components/Home"
 import Connections from "./components/Connections"
 import Requests from "./components/Requests"
+import Premium from "./components/Premium"
 
 function App() {
  
@@ -24,6 +25,7 @@ function App() {
             <Route path="/home" element={<Home></Home>}></Route> 
             <Route path="/signin" element={<Signin></Signin>}></Route>
             <Route path="/connections" element={<Connections></Connections>}></Route>
+            <Route path="/premium" element={<Premium></Premium>}></Route>
             <Route path="/requests" element={<Requests></Requests>}></Route>
           </Route>
         </Routes>
