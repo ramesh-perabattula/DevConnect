@@ -1,64 +1,67 @@
-import axios from 'axios';
-import React, { useEffect } from 'react'
-import { BASE_URL } from '../utils/constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { addConnections } from '../utils/connectionSlice';
+import axios from "axios";
+import { BASE_URL } from "../utils/constants";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addConnections } from "../utils/conectionSlice";
+import { Link } from "react-router-dom";
 
 const Connections = () => {
-    const connections=useSelector((store)=>store.connections);
-    const dispatch=useDispatch();
-   const renderConnection = (connection) => {
-  const { _id, firstName, lastName, age, gender, photoUrl, skills, about } = connection;
+  const connections = useSelector((store) => store.connections);
+  const dispatch = useDispatch();
+  const fetchConnections = async () => {
+    try {
+      const res = await axios.get(BASE_URL + "/user/connections", {
+        withCredentials: true,
+      });
+      dispatch(addConnections(res.data.data));
+    } catch (err) {
+      // Handle Error Case
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchConnections();
+  }, []);
+
+  if (!connections) return;
+
+  if (connections.length === 0) return <h1> No Connections Found</h1>;
 
   return (
-    <div
-      key={_id}
-      className="flex items-center bg-white shadow-md rounded-2xl p-4 mb-6 max-w-2xl mx-auto">
-        <div className="w-24 h-24 flex-shrink-0">
-        <img
-          src={photoUrl}
-          alt={`${firstName} ${lastName}`}
-          className="w-full h-full object-cover rounded-full border"
-        />
-      </div>
-        <div className="ml-6 flex flex-col gap-2">
-        <h2 className="text-xl font-semibold">
-          {firstName} {lastName}
-        </h2>
-        <p className="text-gray-600 text-sm">{about}</p>
-       { age && gender && <p className="text-sm text-gray-500">
-          <span className="font-medium">Age:</span> {age} |{" "}
-          <span className="font-medium">Gender:</span> {gender}
-        </p>}
-        <p className="text-sm text-gray-700">
-          <span className="font-medium">Skills:</span>{" "}
-          {Array.isArray(skills) ? skills.join(", ") : skills}
-        </p>
-      </div>
+    <div className="text-center my-10">
+      <h1 className="text-bold text-white text-3xl">Connections</h1>
+
+      {connections.map((connection) => {
+        const { _id, firstName, lastName, photoUrl, age, gender, about } =
+          connection;
+
+        return (
+          <div
+            key={_id}
+            className="flex m-4 p-4 rounded-lg bg-base-300 w-1/2 mx-auto"
+          >
+            <div>
+              <img
+                alt="photo"
+                className="w-20 h-20 rounded-full object-cover"
+                src={photoUrl}
+              />
+            </div>
+            <div className="text-left mx-4 ">
+              <h2 className="font-bold text-xl">
+                {firstName + " " + lastName}
+              </h2>
+              {age && gender && <p>{age + ", " + gender}</p>}
+              <p>{about}</p>
+            </div>
+            <Link to={"/chat/" + _id}>
+              <button className="btn btn-primary">Chat</button>
+            </Link>
+          </div>
+        );
+      })}
     </div>
   );
 };
-
-    const getConnections=async()=>{
-        try{
-            const res= await axios.get(BASE_URL+"/user/connections",{withCredentials:true});
-             dispatch(addConnections(res.data.data));
-        }catch(err){
-            console.log(err);
-        }
-    }
-    useEffect(()=>{
-        getConnections();
-    },[])
-
-    if(!connections) return;
-    if(connections.length===0) return <h1>No Connections Found</h1>
-  return (
-    <div className='text-center'>
-        <h1>Connections</h1>
-        {connections.map((renderConnection))}
-    </div>
-  )
-}
-
-export default Connections
+export default Connections;
