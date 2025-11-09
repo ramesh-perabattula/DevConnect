@@ -18,17 +18,21 @@ const Body = () => {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
-      dispatch(addUser(res.data));
-    } catch (err) {
-      if (err.status === 401) {
-        navigate("/login");
+      if (res.data) {
+        dispatch(addUser(res.data));
       }
-      console.error(err);
+    } catch (err) {
+      if (err.response?.status === 401) {
+        navigate("/login");
+      } else {
+        console.error("Error fetching user:", err);
+      }
     }
   };
 
   useEffect(() => {
     fetchUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
