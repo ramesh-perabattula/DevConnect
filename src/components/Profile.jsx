@@ -44,8 +44,14 @@ const Profile = () => {
 
   if (!user) {
     return (
-      <div className="flex justify-center items-center min-h-screen">
-        <span className="loading loading-spinner loading-lg"></span>
+      <div className="flex justify-center items-center min-h-screen bg-gray-50">
+        <div className="flex flex-col items-center gap-4">
+          <svg className="animate-spin h-12 w-12 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <p className="text-gray-600 font-medium">Loading profile...</p>
+        </div>
       </div>
     );
   }
@@ -53,24 +59,28 @@ const Profile = () => {
   const { firstName, lastName, photoUrl, age, gender, about, skills, emailId, isPremium } = user;
 
   return (
-    <div className="min-h-screen bg-base-200 py-8 px-4">
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-8 px-3 sm:px-4">
       <div className="max-w-6xl mx-auto">
         {/* Profile Header Card */}
-        <div className="card bg-base-100 shadow-2xl mb-8">
-          <div className="card-body">
-            <div className="flex flex-col md:flex-row items-center md:items-end gap-6">
-              <div className="avatar">
-                <div className="w-32 rounded-full ring ring-base-300 ring-offset-base-100 ring-offset-2">
-                  <img src={photoUrl} alt={`${firstName} ${lastName}`} />
+        <div className="bg-white rounded-xl shadow-lg mb-4 sm:mb-8 overflow-hidden">
+          <div className="p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row items-center sm:items-end gap-4 sm:gap-6">
+              <div className="flex-shrink-0">
+                <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full ring-2 ring-blue-500 ring-offset-2 ring-offset-white overflow-hidden">
+                  <img 
+                    src={photoUrl} 
+                    alt={`${firstName} ${lastName}`}
+                    className="w-full h-full object-cover"
+                  />
                 </div>
               </div>
-              <div className="flex-1 text-center md:text-left">
-                <div className="flex items-center justify-center md:justify-start gap-3 mb-2">
-                  <h1 className="text-4xl font-bold text-base-content">
+              <div className="flex-1 text-center sm:text-left w-full min-w-0">
+                <div className="flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start gap-2 sm:gap-3 mb-2">
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 truncate w-full">
                     {firstName} {lastName}
                   </h1>
                   {isPremium && (
-                    <div className="badge badge-warning gap-2">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 text-xs sm:text-sm font-semibold whitespace-nowrap">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-4 w-4"
@@ -84,21 +94,21 @@ const Profile = () => {
                   )}
                 </div>
                 {(age || gender) && (
-                  <p className="text-lg text-base-content/70 mb-2">
+                  <p className="text-sm sm:text-base text-gray-600 mb-1">
                     {age && `${age} years old`}
                     {age && gender && " • "}
                     {gender && gender.charAt(0).toUpperCase() + gender.slice(1)}
                   </p>
                 )}
-                <p className="text-base-content/60">{emailId}</p>
+                <p className="text-xs sm:text-sm text-gray-500 break-all">{emailId}</p>
               </div>
               <button
-                className="btn btn-primary gap-2"
+                className="w-full sm:w-auto px-4 py-2.5 rounded-lg font-semibold text-sm text-white bg-blue-500 hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
                 onClick={() => setShowEditModal(true)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
+                  className="h-4 w-4"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -110,13 +120,13 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
           {/* About Section */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="card bg-base-100 shadow-xl">
-              <div className="card-body">
-                <h2 className="card-title text-2xl mb-4">About</h2>
-                <p className="text-base-content/80 leading-relaxed">
+          <div className="lg:col-span-2 space-y-4 sm:space-y-6">
+            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              <div className="p-4 sm:p-6">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">About</h2>
+                <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                   {about || "No about information available."}
                 </p>
               </div>
@@ -124,14 +134,17 @@ const Profile = () => {
 
             {/* Skills Section */}
             {skills && skills.length > 0 && (
-              <div className="card bg-base-100 shadow-xl">
-                <div className="card-body">
-                  <h2 className="card-title text-2xl mb-4">Skills</h2>
+              <div className="bg-white rounded-xl shadow-md overflow-hidden">
+                <div className="p-4 sm:p-6">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Skills</h2>
                   <div className="flex flex-wrap gap-2">
                     {skills.map((skill, index) => (
-                      <div key={index} className="badge badge-outline badge-lg p-3">
+                      <span
+                        key={index}
+                        className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium bg-blue-50 text-blue-700 border border-blue-200"
+                      >
                         {skill}
-                      </div>
+                      </span>
                     ))}
                   </div>
                 </div>
@@ -141,21 +154,23 @@ const Profile = () => {
 
           {/* Connection Requests Section */}
           <div className="lg:col-span-1">
-            <div className="card bg-base-100 shadow-xl sticky top-4">
-              <div className="card-body">
-                <h2 className="card-title text-2xl mb-4">
-                  Connection Requests
+            <div className="bg-white rounded-xl shadow-md overflow-hidden lg:sticky lg:top-4">
+              <div className="p-4 sm:p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+                    Connection Requests
+                  </h2>
                   {requests && requests.length > 0 && (
-                    <div className="badge badge-primary badge-lg">
+                    <span className="px-2.5 py-1 rounded-full bg-blue-500 text-white text-xs sm:text-sm font-semibold">
                       {requests.length}
-                    </div>
+                    </span>
                   )}
-                </h2>
+                </div>
                 {!requests || requests.length === 0 ? (
                   <div className="text-center py-8">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-12 w-12 mx-auto text-base-content/30 mb-4"
+                      className="h-12 w-12 mx-auto text-gray-300 mb-4"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -167,10 +182,10 @@ const Profile = () => {
                         d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                       />
                     </svg>
-                    <p className="text-base-content/60">No pending requests</p>
+                    <p className="text-sm text-gray-500">No pending requests</p>
                   </div>
                 ) : (
-                  <div className="space-y-4 max-h-96 overflow-y-auto">
+                  <div className="space-y-3 sm:space-y-4 max-h-96 overflow-y-auto">
                     {requests.map((request) => {
                       const {
                         _id,
@@ -185,21 +200,25 @@ const Profile = () => {
                       return (
                         <div
                           key={request._id}
-                          className="card bg-base-200 shadow-md"
+                          className="bg-gray-50 rounded-lg shadow-sm overflow-hidden"
                         >
-                          <div className="card-body p-4">
+                          <div className="p-3 sm:p-4">
                             <div className="flex items-start gap-3 mb-3">
-                              <div className="avatar">
-                                <div className="w-12 rounded-full">
-                                  <img src={photoUrl} alt={`${firstName} ${lastName}`} />
+                              <div className="flex-shrink-0">
+                                <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-blue-500 ring-offset-2 ring-offset-gray-50">
+                                  <img 
+                                    src={photoUrl} 
+                                    alt={`${firstName} ${lastName}`}
+                                    className="w-full h-full object-cover"
+                                  />
                                 </div>
                               </div>
                               <div className="flex-1 min-w-0">
-                                <h3 className="font-semibold text-base truncate">
+                                <h3 className="font-semibold text-sm sm:text-base text-gray-900 truncate">
                                   {firstName} {lastName}
                                 </h3>
                                 {(age || gender) && (
-                                  <p className="text-sm text-base-content/60">
+                                  <p className="text-xs sm:text-sm text-gray-500">
                                     {age && `${age} years`}
                                     {age && gender && " • "}
                                     {gender && gender.charAt(0).toUpperCase() + gender.slice(1)}
@@ -208,19 +227,19 @@ const Profile = () => {
                               </div>
                             </div>
                             {about && (
-                              <p className="text-sm text-base-content/70 mb-3 line-clamp-2">
+                              <p className="text-xs sm:text-sm text-gray-600 mb-3 line-clamp-2">
                                 {about}
                               </p>
                             )}
                             <div className="flex gap-2">
                               <button
-                                className="btn btn-sm btn-error flex-1"
+                                className="flex-1 px-3 py-2 rounded-lg font-semibold text-xs sm:text-sm text-white bg-red-500 hover:bg-red-600 transition-colors"
                                 onClick={() => reviewRequest("rejected", request._id)}
                               >
                                 Reject
                               </button>
                               <button
-                                className="btn btn-sm btn-success flex-1"
+                                className="flex-1 px-3 py-2 rounded-lg font-semibold text-xs sm:text-sm text-white bg-green-500 hover:bg-green-600 transition-colors"
                                 onClick={() => reviewRequest("accepted", request._id)}
                               >
                                 Accept
@@ -240,23 +259,23 @@ const Profile = () => {
 
       {/* Edit Profile Modal */}
       {showEditModal && (
-        <div className="modal modal-open">
-          <div className="modal-box max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-bold text-2xl">Edit Profile</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+          <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-4 sm:px-6 py-4 flex justify-between items-center">
+              <h3 className="font-bold text-xl sm:text-2xl text-gray-900">Edit Profile</h3>
               <button
-                className="btn btn-sm btn-circle"
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors text-gray-600"
                 onClick={() => setShowEditModal(false)}
               >
-                ✕
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
             </div>
-            <EditProfile user={user} onClose={() => setShowEditModal(false)} />
+            <div className="p-4 sm:p-6">
+              <EditProfile user={user} onClose={() => setShowEditModal(false)} />
+            </div>
           </div>
-          <div
-            className="modal-backdrop"
-            onClick={() => setShowEditModal(false)}
-          ></div>
         </div>
       )}
     </div>

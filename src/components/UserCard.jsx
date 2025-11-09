@@ -26,68 +26,81 @@ const UserCard = ({ user }) => {
   };
 
   return (
-    <div className="card bg-base-100 shadow-2xl w-full max-w-md overflow-hidden">
-      {/* Profile Image */}
-      <figure className="relative h-80 overflow-hidden">
-        <img 
-          src={photoUrl} 
-          alt={`${firstName} ${lastName}`}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-        <div className="absolute bottom-4 left-4 right-4 text-white">
-          <h2 className="text-3xl font-bold mb-1">{firstName} {lastName}</h2>
-          {(age || gender) && (
-            <p className="text-white/90 text-sm">
-              {age && `${age} years old`}
-              {age && gender && " • "}
-              {gender && gender.charAt(0).toUpperCase() + gender.slice(1)}
-            </p>
-          )}
+    <div className="w-full bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+      <div className="p-5">
+        {/* Profile Header */}
+        <div className="flex items-start gap-4 mb-4">
+          <div className="avatar flex-shrink-0">
+            <div className="w-16 h-16 rounded-full ring-2 ring-blue-500 ring-offset-2 ring-offset-white overflow-hidden">
+              <img 
+                src={photoUrl} 
+                alt={`${firstName} ${lastName}`}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+          <div className="flex-1 min-w-0">
+            <h2 className="text-lg font-bold text-gray-900 truncate mb-1">
+              {firstName} {lastName}
+            </h2>
+            {(age || gender) && (
+              <p className="text-sm text-gray-500">
+                {age && `${age} years`}
+                {age && gender && " • "}
+                {gender && gender.charAt(0).toUpperCase() + gender.slice(1)}
+              </p>
+            )}
+          </div>
         </div>
-      </figure>
 
-      {/* Card Body */}
-      <div className="card-body p-6">
         {/* About Section */}
         {about && (
-          <div className="mb-4">
-            <h3 className="text-sm font-semibold text-base-content/70 mb-2">About</h3>
-            <p className="text-base-content/80 leading-relaxed">{about}</p>
-          </div>
+          <p className="text-sm text-gray-700 mb-4 line-clamp-2 leading-relaxed">
+            {about}
+          </p>
         )}
 
         {/* Skills Section */}
         {skills && skills.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-sm font-semibold text-base-content/70 mb-2">Skills</h3>
-            <div className="flex flex-wrap gap-2">
-              {skills.map((skill, index) => (
-                <div key={index} className="badge badge-outline badge-lg">
+          <div className="mb-4">
+            <div className="flex flex-wrap gap-1.5">
+              {skills.slice(0, 3).map((skill, index) => (
+                <span
+                  key={index}
+                  className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200"
+                >
                   {skill}
-                </div>
+                </span>
               ))}
+              {skills.length > 3 && (
+                <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">
+                  +{skills.length - 3}
+                </span>
+              )}
             </div>
           </div>
         )}
 
         {/* Action Buttons */}
-        <div className="card-actions justify-center gap-3 mt-4">
+        <div className="flex gap-2 mt-4">
           <button
-            className="btn btn-outline btn-error flex-1 gap-2"
+            className="flex-1 px-4 py-2.5 rounded-lg font-semibold text-sm transition-all duration-200 border-2 border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             onClick={() => handleSendRequest("ignored", _id)}
             disabled={isProcessing}
           >
             {isProcessing ? (
               <>
-                <span className="loading loading-spinner loading-sm"></span>
-                Processing...
+                <svg className="animate-spin h-4 w-4 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Processing...</span>
               </>
             ) : (
               <>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
+                  className="h-4 w-4"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
@@ -101,21 +114,25 @@ const UserCard = ({ user }) => {
               </>
             )}
           </button>
+          
           <button
-            className="btn btn-primary flex-1 gap-2"
+            className="flex-1 px-4 py-2.5 rounded-lg font-semibold text-sm text-white bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-sm hover:shadow-md transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             onClick={() => handleSendRequest("interested", _id)}
             disabled={isProcessing}
           >
             {isProcessing ? (
               <>
-                <span className="loading loading-spinner loading-sm"></span>
-                Processing...
+                <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span>Processing...</span>
               </>
             ) : (
               <>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
+                  className="h-4 w-4"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
