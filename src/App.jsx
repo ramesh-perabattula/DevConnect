@@ -4,11 +4,13 @@ import Login from "./components/Login";
 import Profile from "./components/Profile";
 import { Provider } from "react-redux";
 import appStore from "./utils/appStore";
-import Feed from "./components/Feed";
+import LandingPage from "./components/LandingPage";
+import Home from "./components/Home";
 import Connections from "./components/Connections";
 import Requests from "./components/Requests";
 import Premium from "./components/Premium";
 import Chat from "./components/Chat";
+import Signup from "./components/Signup";
 
 function App() {
   return (
@@ -16,9 +18,14 @@ function App() {
       <Provider store={appStore}>
         <BrowserRouter basename="/">
           <Routes>
-            <Route path="/" element={<Body />}>
-              <Route path="/" element={<Feed />} />
+            {/* Landing page without NavBar/Footer */}
+            <Route path="/" element={<LandingPage />} />
+
+            {/* All other routes with NavBar/Footer */}
+            <Route element={<Body />}>
+              <Route path="/home" element={<Home />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/connections" element={<Connections />} />
               <Route path="/requests" element={<Requests />} />
